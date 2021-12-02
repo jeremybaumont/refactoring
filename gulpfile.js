@@ -31,9 +31,9 @@ const createWatchTaskForCommand = (command) => {
         hackToGetFunctionWithCommandAsName
     );
 };
-const watchAndRunUnitTests = createWatchTaskForCommand('jest test/unit/');
-const watchAndRunE2ETests = createWatchTaskForCommand('jest test/e2e/');
-const watchAndRunAllTests = createWatchTaskForCommand('jest test/');
+const watchAndRunUnitTests = createWatchTaskForCommand('jest --colors test/unit/');
+const watchAndRunE2ETests = createWatchTaskForCommand('jest --colors test/e2e/');
+const watchAndRunAllTests = createWatchTaskForCommand('jest --colors test/');
 
 const lintTest = async () =>
     gulp.series(
