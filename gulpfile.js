@@ -26,7 +26,7 @@ const createWatchTaskForCommand = (command) => {
     // see https://github.com/kulshekhar/ts-jest/issues/943#issuecomment-952493011
     const hackToGetFunctionWithCommandAsName = { [command]: () => exec(command) }[command];
     return () => gulp.watch(
-        ['src/**/*', 'test/**/*', 'spec.openapi.yml'],
+        ['src/**/*', 'test/**/*'],
         { ignoreInitial: false },
         hackToGetFunctionWithCommandAsName
     );
