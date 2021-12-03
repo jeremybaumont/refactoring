@@ -1,6 +1,6 @@
 import { producerBuilder } from '../support/builders/producer-builder';
 import { provinceBuilder } from '../support/builders/province-builder';
-import { Province } from '../../src/province';
+import { Province, ProvinceData } from '../../src/province';
 
 describe('province', function() {
 
@@ -26,6 +26,27 @@ describe('province', function() {
 
         expect(asia.shortfall).toBe(-6);
         expect(asia.profit).toBe(292);
+    });
+
+    describe('no producers', function() {
+        let provinceWithNoProducers: Province;
+        beforeEach(() => {
+            const data: ProvinceData = {
+                name: "no-producers-name",
+                demand: 30,
+                price: 20,
+                producers: []
+            };
+            provinceWithNoProducers = new Province(data);
+        });
+
+        it('shortfall', function() {
+            expect(provinceWithNoProducers.shortfall).toBe(30);
+        });
+
+        it('profit', function() {
+            expect(provinceWithNoProducers.profit).toBe(0);
+        });
     });
 
 });
