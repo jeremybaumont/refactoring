@@ -18,6 +18,27 @@ interface PlaysData {
 }
 
 export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
+    const amountFor = (aPerformance: Perf): number => {
+        let result = 0;
+        switch (playFor(aPerformance).type) {
+            case "tragedy":
+                result = 40000;
+                if (aPerformance.audience > 30) {
+                    result += 1000 * (aPerformance.audience - 30);
+                }
+                break;
+            case "comedy":
+                result = 30000;
+                if (aPerformance.audience > 20) {
+                    result += 10000 + 500 * (aPerformance.audience - 20);
+                }
+                result += 300 * aPerformance.audience;
+                break;
+            default:
+                throw new Error(`unknown type: ${playFor(aPerformance).type}`);
+        }
+        return result;
+    }
 
     const playFor = (aPerformance: Perf): PlayData => {
         const result = plays[aPerformance.playID];
@@ -35,7 +56,7 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
         }).format;
 
     for (let perf of invoice.performances) {
-        let thisAmount = amountFor(playFor(perf), perf);
+        let thisAmount = amountFor(perf);
         // add volume credits
         volumeCredits += Math.max(perf.audience - 30, 0);
         // add extra credit for every ten comedy attendees
@@ -49,24 +70,4 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
     return result;
 }
 
-const amountFor = (play: PlayData, aPerformance: Perf): number => {
-    let result = 0;
-    switch (play.type) {
-        case "tragedy":
-            result = 40000;
-            if (aPerformance.audience > 30) {
-                result += 1000 * (aPerformance.audience - 30);
-            }
-            break;
-        case "comedy":
-            result = 30000;
-            if (aPerformance.audience > 20) {
-                result += 10000 + 500 * (aPerformance.audience - 20);
-            }
-            result += 300 * aPerformance.audience;
-            break;
-        default:
-            throw new Error(`unknown type: ${play.type}`);
-    }
-    return result;
-}
+
