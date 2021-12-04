@@ -67,6 +67,8 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
     let result = `Statement for ${invoice.customer}\n`;
     for (let perf of invoice.performances) {
         volumeCredits += volumeCreditsFor(perf);
+    }
+    for (let perf of invoice.performances) {
         result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`;
         totalAmount += amountFor(perf);
     }
