@@ -69,7 +69,7 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
         return volumeCredits;
     }
 
-    const foobar = (): number => {
+    const totalAmount = (): number => {
         let totalAmount = 0;
         for (let perf of invoice.performances) {
             totalAmount += amountFor(perf);
@@ -81,8 +81,7 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
     for (let perf of invoice.performances) {
         result += ` ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience} seats)\n`;
     }
-    let totalAmount = foobar();
-    result += `Amount owed is ${usd(totalAmount)}\n`;
+    result += `Amount owed is ${usd(totalAmount())}\n`;
     result += `You earned ${totalVolumeCredits()} credits\n`;
     return result;
 }
