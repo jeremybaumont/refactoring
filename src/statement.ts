@@ -18,6 +18,13 @@ interface PlaysData {
 }
 
 export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
+
+    const playFor = (aPerformance: Perf): PlayData => {
+        const result = plays[aPerformance.playID];
+        if (result === undefined) throw new Error(`unknown play ID: ${aPerformance.playID}`);
+        return result;
+    }
+
     let totalAmount = 0;
     let volumeCredits = 0;
     let result = `Statement for ${invoice.customer}\n`;
@@ -28,7 +35,7 @@ export const statement = (invoice: InvoiceData, plays: PlaysData): string => {
         }).format;
 
     for (let perf of invoice.performances) {
-        const play = plays[perf.playID] ?? { type: "not-type-found", name: "no-name-found" };
+        const play = playFor(perf);
         let thisAmount = amountFor(play, perf);
         // add volume credits
         volumeCredits += Math.max(perf.audience - 30, 0);
